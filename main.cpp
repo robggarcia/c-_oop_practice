@@ -67,6 +67,12 @@ public:
         else
             std::cout << Name << " sorry, no promotion for you!" << std::endl;
     }
+    // when a VIRTUAL function is invoked, it first checks if there is implementation of the
+    // same function in any of the derived classes
+    virtual void Work()
+    {
+        std::cout << Name << " is checking email, task backlog, and performing tasks, ..." << std::endl;
+    }
 };
 
 // the Developer class is a child class of the parent class Employee and inherits all properties
@@ -88,6 +94,10 @@ public:
         // unless we make the properties PROTECTED! <-- derived classes can access these
         std::cout << Name << " fixed a bug using " << FavProgrammingLanguage << "!" << std::endl;
     }
+    void Work()
+    {
+        std::cout << Name << " is writing " << FavProgrammingLanguage << " code." << std::endl;
+    }
 };
 
 class Teacher : public Employee
@@ -102,6 +112,10 @@ public:
         : Employee(name, company, age)
     {
         Subject = subject;
+    }
+    void Work()
+    {
+        std::cout << Name << " is teaching " << Subject << "." << std::endl;
     }
 };
 
@@ -122,10 +136,22 @@ int main()
     Developer dev = Developer("Mario", "Google", 25, "C++");
     dev.FixBug();
     dev.AskForPromotion();
+    dev.Work();
 
     Teacher teach = Teacher("Luigi", "School District of Philadelphia", 32, "Physics");
     teach.PrepareLesson();
     teach.AskForPromotion();
+    teach.Work();
+
+    // polymorphism describes the ability of an object or method to have many forms
+    // when a parent class reference is used to refer to an object of a child class
+
+    // create Employee pointers for the dev and teach objects;
+    Employee *e1 = &dev;
+    Employee *e2 = &teach;
+
+    e1->Work();
+    e2->Work();
 
     return 0;
 }
